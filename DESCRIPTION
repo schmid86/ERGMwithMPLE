@@ -1,0 +1,14 @@
+Package: ERGMwithMPLE
+Type: Package
+Title: Maximum Pseudolikelihood Estimation Methods for Exponential Random Graph Models
+Version: 0.1.0
+Author: Christian S. Schmid <songhyo86@gmail.com>,
+        David R. Hunter <dhunter@stat.psu.edu>,
+        Bruce A. Desmarais <bdesmarais@psu.edu>
+Maintainer: Christian Schmid <songhyo86@gmail.com>
+Depends: ergm (>= 3.10.4), doParallel (>= 1.0.15), safeBinaryRegression (>= 0.1.3)
+Description: Exponential Random Graph Models with Parametric Bootstrapped Pseudolikelihood as described in: C. S. Schmid and B. A. Desmarais. Exponential random graph models with big networks: Maximum pseudolikelihood estimation and the parametric bootstrap. 2017 IEEE International Conference on Big Data (Big Data), pages 116–121, Dec 2017 
+    and with Godambe matrix adjustment as described in C. S. Schmid and D. R. Hunter (in work)
+License: GPL (>=2)
+Encoding: UTF-8
+LazyData: true

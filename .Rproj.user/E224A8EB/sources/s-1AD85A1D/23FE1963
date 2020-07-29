@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1596039252391.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3035050861",
+    "id" : "23FE1963",
+    "lastKnownWriteTime" : 1596036421,
+    "last_content_update" : 1596036421,
+    "path" : "~/ERGMwithMPLE/R/plot_MPLEergm.R",
+    "project_path" : "R/plot_MPLEergm.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1596037395994.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3354939444",
+    "id" : "F6ECB21F",
+    "lastKnownWriteTime" : 1596050444,
+    "last_content_update" : 1596050444128,
+    "path" : "~/ERGMwithMPLE/man/plot_MPLEergm.Rd",
+    "project_path" : "man/plot_MPLEergm.Rd",
+    "properties" : {
+        "cursorPosition" : "54,14",
+        "scrollLine" : "39",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 12,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

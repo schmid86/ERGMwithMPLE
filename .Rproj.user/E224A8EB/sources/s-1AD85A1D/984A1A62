@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1596039244536.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2699549737",
+    "id" : "984A1A62",
+    "lastKnownWriteTime" : 1596050214,
+    "last_content_update" : 1596050214966,
+    "path" : "~/ERGMwithMPLE/R/ergm_mple.R",
+    "project_path" : "R/ergm_mple.R",
+    "properties" : {
+        "cursorPosition" : "8,8",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

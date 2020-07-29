@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1596037546776.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2626162201",
+    "id" : "1626BC33",
+    "lastKnownWriteTime" : 1596050468,
+    "last_content_update" : 1596050468528,
+    "path" : "~/ERGMwithMPLE/man/simulate_MPLEergm.Rd",
+    "project_path" : "man/simulate_MPLEergm.Rd",
+    "properties" : {
+        "cursorPosition" : "50,14",
+        "scrollLine" : "37",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 14,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

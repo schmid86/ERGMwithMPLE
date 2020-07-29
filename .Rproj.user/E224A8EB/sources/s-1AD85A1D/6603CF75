@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1596039248779.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1216785531",
+    "id" : "6603CF75",
+    "lastKnownWriteTime" : 1596036421,
+    "last_content_update" : 1596036421,
+    "path" : "~/ERGMwithMPLE/R/getformula.R",
+    "project_path" : "R/getformula.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

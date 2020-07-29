@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1596039236984.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1928271501",
+    "id" : "7BB9606C",
+    "lastKnownWriteTime" : 1596039243,
+    "last_content_update" : 1596039243070,
+    "path" : "~/ERGMwithMPLE/R/degeneracycheck.R",
+    "project_path" : "R/degeneracycheck.R",
+    "properties" : {
+        "cursorPosition" : "42,0",
+        "scrollLine" : "21"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

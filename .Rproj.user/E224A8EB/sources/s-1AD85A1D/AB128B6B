@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1596036600330.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "AB128B6B",
+    "lastKnownWriteTime" : 1596050506,
+    "last_content_update" : 1596050506632,
+    "path" : "~/ERGMwithMPLE/man/getformula.Rd",
+    "project_path" : "man/getformula.Rd",
+    "properties" : {
+        "cursorPosition" : "51,13",
+        "scrollLine" : "35",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}
