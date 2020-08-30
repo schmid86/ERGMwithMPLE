@@ -9,7 +9,7 @@
 }
 \usage{
 MPLEergm(formula, R=500, method=c("bootstrap", "godambe"), control.mple = NULL,
-control.sim = NULL, control.boot=NULL, checkforseparateddata=TRUE,
+control.sim = NULL, control.boot=NULL, checkforseparateddata=TRUE, sim.net.mple=FALSE,
 nowonit=100, cpu.cores=1, constraints =~.)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -26,6 +26,7 @@ with the same model terms etc. (for a list of terms, see help("\link[ergm]{ergm-
 \item{checkforseparateddata}{If "TRUE", then the data is checked for separation using the
 R-package "safeBinaryRegression" (Konis, 2007). If the data is separated, the MPLE does
 not exist and the function will stop and indicate which variable(s) cause the separation.}
+\item{sim.net.mple}{If TRUE, the MPLEs of the simulated networks are being calculated. This only has an effect if method="godambe", since the MPLEs of simulated networks are being automatically calculated for the bootstrapping method.}
 \item{nowonit}{Returns: 'Now on Iteration \code{nowonit}' after every \code{nowonit}'s iteration. Keeps track of the progress of the estimation. Default is \code{nowonit=100}.}
 \item{cpu.cores}{Number of CPU cores used. Default is \code{cpu.cores=1}. If the number of CPU cores used is greater than 1, the code will automatically parallelize the computation using the \bold{doParallel} R-package.}
 \item{constraints}{Constraints of the ERGM. See \link[ergm]{ergm} for details.}

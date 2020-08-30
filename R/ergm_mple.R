@@ -1,5 +1,4 @@
 
-
 # dependencies: ergm, doParallel, foreach
 #library(ergm)
 #library(doParallel)
@@ -9,8 +8,9 @@
 MPLEergm <- function(formula, R= 500, control.mple = control.ergm(drop=TRUE),
                      method="bootstrap",
                      control.sim = control.simulate.ergm(MCMC.interval=1024),
-                     checkforseparateddata=TRUE,
-                     control.boot=control.ergm(drop=TRUE), nowonit=100, cpu.cores=1, constraints =~.){
+                     checkforseparateddata=TRUE, sim.net.mple=FALSE,
+                     control.boot=control.ergm(drop=TRUE), nowonit=100, cpu.cores=1,
+                     constraints =~.){
 
 
   if(checkforseparateddata==TRUE){
@@ -43,92 +43,114 @@ MPLEergm <- function(formula, R= 500, control.mple = control.ergm(drop=TRUE),
   sim.mple <- simulate(mple, nsim=R, control=control.sim ) # simulate network
 
 
-
   if(method=="bootstrap"){
-  # create empty matrix to store mple of bootstrap samples
-  boot.mple.mat <- matrix(0, R, num.variables)
-  colnames(boot.mple.mat) <- names(coef(mple))
+    # create empty matrix to store mple of bootstrap samples
+    boot.mple.mat <- matrix(0, R, num.variables)
+    colnames(boot.mple.mat) <- names(coef(mple))
 
-  # create empty matrix to store network statistics of bootstrap samples
-  boot.stat.mat <- matrix(0, R, num.variables)
-  colnames(boot.stat.mat) <- names(coef(mple))
+    # create empty matrix to store network statistics of bootstrap samples
+    boot.stat.mat <- matrix(0, R, num.variables)
+    colnames(boot.stat.mat) <- names(coef(mple))
 
-  # replace response network in formula
-  tt <- terms(formula)
-  new.formula <- reformulate(attr(tt, "term.labels"), "sim.mple[[i]]")
+    # replace response network in formula
+    tt <- terms(formula)
+    new.formula <- reformulate(attr(tt, "term.labels"), "sim.mple[[i]]")
 
-  cat("Estimating MPLE of simulated networks\n")
+    cat("Estimating MPLE of simulated networks\n")
 
-  # if only one CPU core is used
+    # if only one CPU core is used
 
-  if(cpu.cores==1){
-    for(i in 1:R){
+    if(cpu.cores==1){
+      for(i in 1:R){
 
-      if(i %% nowonit == 0)
-      {
-        cat("Now on iteration ", i, "\n")
-      } # end if
+        if(i %% nowonit == 0)
+        {
+          cat("Now on iteration ", i, "\n")
+        } # end if
 
-      boot.mple<- suppressMessages(ergm(new.formula, estimate="MPLE" , control=control.boot, constraints=constraints))
+        boot.mple<- suppressMessages(ergm(new.formula, estimate="MPLE" , control=control.boot, constraints=constraints))
 
-      boot.mple.mat[i,] <- coef(boot.mple)
+        boot.mple.mat[i,] <- coef(boot.mple)
 
-      boot.stat.mat[i,] <- summary(new.formula)
-    } # end for
-
-
-  } else{ # parallel
-
-    registerDoParallel(cores=cpu.cores)
-
-    par.results <-foreach(i=1:R, .export='ergm', .combine=rbind)%dopar%{
+        boot.stat.mat[i,] <- summary(new.formula)
+      } # end for
 
 
+    } else{ # parallel
 
-      tt <- terms(formula)
-      sim.mple.net <- sim.mple[[i]]
-      par.formula <- reformulate(attr(tt, "term.labels"), "sim.mple.net")
+      registerDoParallel(cores=cpu.cores)
 
-      boot.mple<- suppressMessages(ergm(par.formula, estimate="MPLE" , control=control.boot))
+      par.results <-foreach(i=1:R, .export='ergm', .combine=rbind)%dopar%{
 
-      g1 <- coef(boot.mple)
 
-      g2 <- summary(par.formula)
 
-      g<- c(g1, g2)
+        tt <- terms(formula)
+        sim.mple.net <- sim.mple[[i]]
+        par.formula <- reformulate(attr(tt, "term.labels"), "sim.mple.net")
 
-      g
+        boot.mple<- suppressMessages(ergm(par.formula, estimate="MPLE" , control=control.boot))
 
-    } # end foreach
+        g1 <- coef(boot.mple)
 
-    # split par.results into boot.mple.mat and boot.stat.mat
+        g2 <- summary(par.formula)
 
-    boot.mple.mat <- par.results[,1:num.variables ]
-    boot.stat.mat <- par.results[,(num.variables+1):(2*num.variables) ]
+        g<- c(g1, g2)
 
-  } # end else # parallel
+        g
 
-  # create empty matrix
-  Result.matrix <- matrix(0, num.variables, 3)
-  rownames(Result.matrix) <- names(coef(mple))
-  colnames(Result.matrix) <- c("MPLE", "2.5%", "97.5%")
+      } # end foreach
 
-  Result.matrix[,1] <- coef(mple)
+      # split par.results into boot.mple.mat and boot.stat.mat
 
-  for(i in 1:num.variables){
-    Result.matrix[i,2] <- quantile(boot.mple.mat[,i], probs = 0.025)
-    Result.matrix[i,3] <- quantile(boot.mple.mat[,i], probs = 0.975)
+      boot.mple.mat <- par.results[,1:num.variables ]
+      boot.stat.mat <- par.results[,(num.variables+1):(2*num.variables) ]
 
-  }
+    } # end else # parallel
 
-  return.list <- list(estimate="bootstrap", boot.interval = Result.matrix , boot.mple.matrix=boot.mple.mat , MPLE= mple, formula=formula,
-                      observed.statistics=observed.statistics, obs.sim.statistics=boot.stat.mat)
-  class(return.list) <- "MPLEergm"
+    # create empty matrix
+    Result.matrix <- matrix(0, num.variables, 3)
+    rownames(Result.matrix) <- names(coef(mple))
+    colnames(Result.matrix) <- c("MPLE", "2.5%", "97.5%")
 
-  return(return.list)
+    Result.matrix[,1] <- coef(mple)
+
+    for(i in 1:num.variables){
+      Result.matrix[i,2] <- quantile(boot.mple.mat[,i], probs = 0.025)
+      Result.matrix[i,3] <- quantile(boot.mple.mat[,i], probs = 0.975)
+
+    }
+
+
+    return.list <- list(estimate="bootstrap", boot.interval = Result.matrix , boot.mple.matrix=boot.mple.mat , MPLE= mple, formula=formula,
+                        observed.statistics=observed.statistics, obs.sim.statistics=boot.stat.mat)
+    class(return.list) <- "MPLEergm"
+
+    return(return.list)
+    # end else sim.mple=T
 
   }else{  # end if method=bootstrap
     if(method=="godambe"){
+
+
+      # estimate MPLE of simulated networks
+      if(sim.net.mple==TRUE){
+        cat("Calculating MPLE of ", R , " simulated networks\n")
+        sim.mple.mat <- matrix(0, ncol=num.variables, nrow=R)
+        colnames(sim.mple.mat) <- names(coef(mple))
+
+        tt <- terms(formula)
+        new.formula <- reformulate(attr(tt, "term.labels"), "sim.mple[[k]]")
+
+        for(k in 1:R){
+
+          sim.ergm <- suppressMessages(ergm(new.formula, estimate="MPLE", control=control.mple, constraints = constraints))
+
+          sim.mple.mat[k,] <- coef(sim.ergm)
+        }
+
+      }# end if sim.mple=TRUE
+
+
 
       # get change statistics
       net.sim.dat <- ergmMPLE(formula)
@@ -264,13 +286,25 @@ MPLEergm <- function(formula, R= 500, control.mple = control.ergm(drop=TRUE),
       Result.matrix[,5] <- stars
       names(Result.matrix)[5]<- ""
 
+      if(sim.net.mple==TRUE){
+        return.list <- list(estimate="godambe" , coefficient = coef(mple) , MPLE= mple, formula=formula,
+                            observed.statistics=observed.statistics, G=G, invHess = J.inv,
+                            sd.godambe=sd.godambe, obs.sim.statistics = net.stat, summary.results = Result.matrix,
+                            simulated.net.mple=sim.mple.mat)
+        class(return.list) <- "MPLEergm"
 
-      return.list <- list(estimate="godambe" , coefficient = coef(mple) , MPLE= mple, formula=formula,
-                          observed.statistics=observed.statistics, G=G, invHess = J.inv,
-                          sd.godambe=sd.godambe, obs.sim.statistics = net.stat, summary.results = Result.matrix)
-      class(return.list) <- "MPLEergm"
+        return(return.list)
 
-      return(return.list)
+      }else{
+
+        return.list <- list(estimate="godambe" , coefficient = coef(mple) , MPLE= mple, formula=formula,
+                            observed.statistics=observed.statistics, G=G, invHess = J.inv,
+                            sd.godambe=sd.godambe, obs.sim.statistics = net.stat, summary.results = Result.matrix)
+        class(return.list) <- "MPLEergm"
+
+        return(return.list)
+
+      }
 
 
 
